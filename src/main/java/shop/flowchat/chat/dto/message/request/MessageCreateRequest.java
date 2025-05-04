@@ -7,8 +7,4 @@ public record MessageCreateRequest(
         String message,
         List<Attachment> attachments
 ) {
-//    public record Attachment(
-//            String type,
-//            String url
-//    ) {}
 }

@@ -1,21 +1,11 @@
 package shop.flowchat.chat.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shop.flowchat.chat.dto.message.request.MessageCreateRequest;
-import shop.flowchat.chat.dto.message.response.MessageCreateResponse;
+import shop.flowchat.chat.repository.MessageRepository;
 
 @Service
+@RequiredArgsConstructor
 public class ChatService {
-    public MessageCreateResponse saveMessage(Long chatRoomId, MessageCreateRequest request) {
-        // Todo: db에 저장과정 처리
-        return new MessageCreateResponse(
-            chatRoomId,
-            1L,
-            "승은",
-            request.message(),
-            request.attachments(),
-            java.time.LocalDateTime.now().toString(),
-            "sent"
-        );
-    }
+    private final MessageRepository messageRepository;
 }

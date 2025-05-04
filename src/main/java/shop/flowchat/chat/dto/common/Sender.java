@@ -1,7 +1,9 @@
 package shop.flowchat.chat.dto.common;
 
+import java.util.UUID;
+
 public record Sender(
-        Long userId,
+        UUID senderId,
         String username,
         String avatarUrl
 ) {}

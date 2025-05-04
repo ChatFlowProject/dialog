@@ -1,29 +1,27 @@
 package shop.flowchat.chat.dto.message.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import shop.flowchat.chat.dto.common.Sender;
 import shop.flowchat.chat.dto.common.Attachment;
-import shop.flowchat.chat.dto.message.request.MessageCreateRequest;
+import shop.flowchat.chat.dto.kafka.MessagePayload;
+import shop.flowchat.chat.dto.member.MemberSimpleResponse;
 
 public record MessagePushResponse(
-        Long chatRoomId,
-        Long messageId,
+        UUID chatId,
         Sender sender,
         String message,
         List<Attachment> attachments,
-        String timestamp,
-        String status
+        LocalDateTime createdAt
 ) {
-    // static of() 메서드 추가
-    public static MessagePushResponse of(Long chatRoomId, MessageCreateRequest request) {
+    public static MessagePushResponse from(MessagePayload payload, MemberSimpleResponse response) {
         return new MessagePushResponse(
-                chatRoomId,
-                null,
-                new Sender(1L, "승은", "https://example.com/avatar.png"),
-                request.message(),
-                request.attachments(),
-                java.time.LocalDateTime.now().toString(),
-                "sent"
+            payload.chatId(),
+            new Sender(response.id(), response.name(), response.avatarUrl()),
+            payload.content(),
+            payload.attachments(),
+            payload.createdAt()
         );
     }
 }
