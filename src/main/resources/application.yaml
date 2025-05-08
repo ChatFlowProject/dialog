@@ -35,3 +35,7 @@ springdoc:
       enabled: true
 tag:
   version: 1.0.0
+
+feign:
+  chatflow:
+    member: ${MEMBER_SERVICE_URL}
