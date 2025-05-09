@@ -11,8 +11,10 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "chat_member",
         uniqueConstraints = {@UniqueConstraint(
             name = "uk_chat_member_unique",
@@ -20,7 +22,7 @@ import java.util.UUID;
         )})
 public class ChatMember {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private UUID memberId;

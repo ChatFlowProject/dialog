@@ -1,6 +1,8 @@
 package shop.flowchat.chat.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,8 +12,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "chat")
 public class Chat {
     @Id
@@ -23,6 +27,7 @@ public class Chat {
     @OneToMany(mappedBy = "chat")
     private List<Message> messages = new ArrayList<>();
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ChatType type;
     private LocalDateTime createAt;
 }

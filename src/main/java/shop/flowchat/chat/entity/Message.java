@@ -21,7 +21,7 @@ import shop.flowchat.chat.dto.kafka.MessagePayload;
 @Table(name = "message")
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private UUID senderId;
@@ -34,7 +34,8 @@ public class Message {
     private Boolean isUpdated;
 
     @Builder
-    public Message(UUID senderId, Chat chat, String content, LocalDateTime createdAt, Boolean isUpdated) {
+    public Message(Long id, UUID senderId, Chat chat, String content, LocalDateTime createdAt, Boolean isUpdated) {
+        this.id = id;
         this.senderId = senderId;
         this.chat = chat;
         this.content = content;
