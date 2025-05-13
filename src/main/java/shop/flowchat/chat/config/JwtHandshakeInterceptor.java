@@ -21,14 +21,15 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                    WebSocketHandler wsHandler, Map<String, Object> attributes) {
-
-        List<String> authHeaders = request.getHeaders().get("Authorization");
-        if (authHeaders != null && !authHeaders.isEmpty()) {
-            String token = authHeaders.get(0).replace("Bearer ", "");
-            if (jwtTokenProvider.validateToken(token)) {
-                UUID memberId = jwtTokenProvider.getMemberIdFromToken(token);
-                attributes.put("memberId", memberId.toString());  // 세션에 저장
-            }
+        String uri = request.getURI().toString();
+        String token = null;
+        if (uri.contains("token=")) {
+            token = uri.substring(uri.indexOf("token=") + 6);
+        }
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            attributes.put("token", token);
+            UUID memberId = jwtTokenProvider.getMemberIdFromToken(token);
+            attributes.put("memberId", memberId);
         }
         return true;
     }
@@ -36,6 +37,5 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                WebSocketHandler wsHandler, Exception exception) {
-
     }
 }

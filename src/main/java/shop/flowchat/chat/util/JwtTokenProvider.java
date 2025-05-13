@@ -12,8 +12,7 @@ import java.util.UUID;
 @Component
 public class JwtTokenProvider {
 
-    // TODO: 환경변수 설정
-    private final String secretKey = "secret-key";
+    private final String secretKey = "user_token_for_signature_must_be_at_least_256_bits_in_HMAC_signature_algorithms";
 
     public boolean validateToken(String token) {
         try {

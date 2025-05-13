@@ -8,7 +8,7 @@ import shop.flowchat.chat.dto.kafka.MessagePayload;
 @Service
 @RequiredArgsConstructor
 public class ChatMessageProducer {
-    private KafkaTemplate<String, MessagePayload> kafkaTemplate;
+    private final KafkaTemplate<String, MessagePayload> kafkaTemplate;
     private static final String TOPIC = "chat-message";
 
     public void sendMessage(MessagePayload payload) {

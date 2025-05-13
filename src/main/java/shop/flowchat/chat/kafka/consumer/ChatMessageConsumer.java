@@ -14,6 +14,7 @@ import shop.flowchat.chat.entity.Chat;
 import shop.flowchat.chat.repository.MessageRepository;
 import shop.flowchat.chat.repository.ChatRepository;
 import jakarta.persistence.EntityNotFoundException;
+import feign.FeignException;
 
 @Component
 @RequiredArgsConstructor
@@ -31,12 +32,26 @@ public class ChatMessageConsumer {
         Chat chat = chatRepository.findById(payload.chatId())
                 .orElseThrow(() -> new EntityNotFoundException("채팅방을 찾을 수 없습니다."));
 
+         MemberSimpleResponse member;
+         try {
+             String bearerToken = payload.token().startsWith("Bearer ")
+                     ? payload.token()
+                     : "Bearer " + payload.token();
+
+             member = memberClient.getMemberInfo(bearerToken, payload.senderId()).data();
+         } catch (FeignException e) {
+             log.warn("멤버 조회 실패: {}", e.getMessage());
+             return;
+         }
+
         Message message = Message.create(payload, chat);
         messageRepository.save(message);
 
-        MemberSimpleResponse member = memberClient.getMemberInfo(payload.senderId()).data();
-
         MessagePushResponse response = MessagePushResponse.from(payload, member);
-        template.convertAndSend("/sub/message/" + payload.chatId(), response);
+        try {
+            template.convertAndSend("/sub/message/" + payload.chatId(), response);
+        } catch (Exception e) {
+            log.warn("WebSocket 전송 실패: {}", e.getMessage());
+        }
     }
 }
