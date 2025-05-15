@@ -24,13 +24,13 @@ spring:
     properties:
       security.protocol: PLAINTEXT # 프로토콜 명시
       bootstrap.servers.protocol.map: CLIENT:PLAINTEXT
-      client.id: "dialog-kafka-client" # 클라이언트 ID 지정
+      client.id: "chat-kafka-client" # 클라이언트 ID 지정
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 #      transactional.id: "dialog-transaction"
     consumer:
-      group-id: "dialog-service-group"
+      group-id: "chat-group"
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
