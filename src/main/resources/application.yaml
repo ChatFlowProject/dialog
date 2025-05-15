@@ -25,15 +25,19 @@ spring:
       security.protocol: PLAINTEXT # 프로토콜 명시
       bootstrap.servers.protocol.map: CLIENT:PLAINTEXT
       client.id: "chat-kafka-client" # 클라이언트 ID 지정
+      spring.json.trusted.packages: shop.flowchat.chat.dto.kafka
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 #      transactional.id: "dialog-transaction"
     consumer:
-      group-id: "chat-group"
+      group-id: "chat-service-group"
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: shop.flowchat.chat.dto.kafka
+        spring.json.value.default.type: shop.flowchat.chat.dto.kafka.MessagePayload
 #      isolation-level: read_committed
     #      enable-auto-commit: true
 #    streams:
