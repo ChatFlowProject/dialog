@@ -1,5 +1,6 @@
 package shop.flowchat.chat.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +30,22 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private UUID memberId;
+
+    @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
     private Boolean isUpdated;
 
-    @OneToMany(mappedBy = "message")
+    @Column(nullable = false)
+    private Boolean isDeleted;
+
+    @OneToMany(mappedBy = "message", orphanRemoval = true)
     private List<Attachment> attachments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,12 +53,13 @@ public class Message {
     private Chat chat;
 
     @Builder
-    public Message(UUID memberId, Chat chat, String content, LocalDateTime createdAt, Boolean isUpdated) {
+    public Message(UUID memberId, Chat chat, String content, LocalDateTime createdAt) {
         this.memberId = memberId;
         this.chat = chat;
         this.content = content;
         this.createdAt = createdAt;
-        this.isUpdated = isUpdated;
+        this.isUpdated = false;
+        this.isDeleted = false;
     }
 
     public static Message create(MessagePayload payload, Chat chat) {
@@ -56,7 +68,10 @@ public class Message {
                 .chat(chat)
                 .content(payload.content())
                 .createdAt(payload.createdAt())
-                .isUpdated(payload.edited())
                 .build();
+    }
+
+    public void setIsDeleted(boolean deleted) {
+        this.isDeleted = deleted;
     }
 }

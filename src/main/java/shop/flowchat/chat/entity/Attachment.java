@@ -11,8 +11,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.flowchat.chat.dto.common.AttachmentDto;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -23,11 +25,26 @@ public class Attachment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String url;
     @Enumerated(EnumType.STRING)
     private AttachmentType type;
-    private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "message_id", nullable = false)
     private Message message;
+
+    @Builder
+    public Attachment(Message message, String url, AttachmentType type) {
+        this.message = message;
+        this.url = url;
+        this.type = type;
+    }
+
+    public static Attachment create(Message message, AttachmentDto attachmentDto) {
+        return Attachment.builder()
+                .message(message)
+                .url(attachmentDto.url())
+                .type(attachmentDto.type())
+                .build();
+    }
 }
