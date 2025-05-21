@@ -1,8 +1,6 @@
 package shop.flowchat.chat.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,8 +10,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import shop.flowchat.chat.dto.kafka.MessagePayload;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
 @Table(name = "chat")
@@ -22,12 +25,20 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToMany(mappedBy = "chat")
-    private List<ChatMember> members = new ArrayList<>();
+    private LocalDateTime createAt;
+
     @OneToMany(mappedBy = "chat")
     private List<Message> messages = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private ChatType type;
-    private LocalDateTime createAt;
+    @Builder
+    public Chat(LocalDateTime createAt) {
+        this.createAt = createAt != null ? createAt : LocalDateTime.now();
+    }
+
+    public static Chat create() {
+        return Chat.builder()
+                .createAt(LocalDateTime.now())
+                .build();
+    }
+
 }

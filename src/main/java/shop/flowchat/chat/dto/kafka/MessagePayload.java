@@ -3,13 +3,13 @@ package shop.flowchat.chat.dto.kafka;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import shop.flowchat.chat.dto.common.Attachment;
+import shop.flowchat.chat.dto.common.AttachmentDto;
 
 public record MessagePayload(
     UUID chatId,
-    UUID senderId,
+    UUID memberId,
     String content,
-    List<Attachment> attachments,
+    List<AttachmentDto> attachments,
     LocalDateTime createdAt,
     Boolean edited,
     String token

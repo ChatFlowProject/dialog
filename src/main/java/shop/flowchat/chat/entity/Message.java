@@ -1,4 +1,8 @@
 package shop.flowchat.chat.entity;
+
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 
 import jakarta.persistence.Entity;
@@ -12,31 +16,34 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.flowchat.chat.dto.kafka.MessagePayload;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
 @Entity
+@Getter
 @Table(name = "message")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private UUID senderId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
-
+    private UUID memberId;
     private String content;
     private LocalDateTime createdAt;
     private Boolean isUpdated;
 
+    @OneToMany(mappedBy = "message")
+    private List<Attachment> attachments = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_id")
+    private Chat chat;
+
     @Builder
-    public Message(Long id, UUID senderId, Chat chat, String content, LocalDateTime createdAt, Boolean isUpdated) {
-        this.id = id;
-        this.senderId = senderId;
+    public Message(UUID memberId, Chat chat, String content, LocalDateTime createdAt, Boolean isUpdated) {
+        this.memberId = memberId;
         this.chat = chat;
         this.content = content;
         this.createdAt = createdAt;
@@ -45,7 +52,7 @@ public class Message {
 
     public static Message create(MessagePayload payload, Chat chat) {
         return Message.builder()
-                .senderId(payload.senderId())
+                .memberId(payload.memberId())
                 .chat(chat)
                 .content(payload.content())
                 .createdAt(payload.createdAt())

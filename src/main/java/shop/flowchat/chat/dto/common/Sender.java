@@ -3,7 +3,7 @@ package shop.flowchat.chat.dto.common;
 import java.util.UUID;
 
 public record Sender(
-        UUID senderId,
+        UUID memberId,
         String username,
         String avatarUrl
 ) {}

@@ -29,12 +29,12 @@ public class MessageController {
             return;
         }
 
-        UUID senderId = UUID.fromString(sessionAttributes.get("memberId").toString());
+        UUID memberId = UUID.fromString(sessionAttributes.get("memberId").toString());
         String token = sessionAttributes.get("token").toString();
         System.out.println(token);
         MessagePayload payload = new MessagePayload(
                 chatId,
-                senderId,
+                memberId,
                 request.message(),
                 request.attachments(),
                 LocalDateTime.now(),
