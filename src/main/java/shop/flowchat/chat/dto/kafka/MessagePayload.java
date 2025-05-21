@@ -11,6 +11,5 @@ public record MessagePayload(
     String content,
     List<AttachmentDto> attachments,
     LocalDateTime createdAt,
-    Boolean edited,
     String token
 ) {}

@@ -18,10 +18,23 @@ public class MessageService {
                 .orElseThrow(() -> new RuntimeException("메시지를 찾을 수 없습니다."));
 
         if (!message.getMemberId().equals(memberId)) {
-            throw new RuntimeException("삭제 권한이 없습니다.");
+            throw new RuntimeException("메시지를 찾을 수 없습니다.");
         }
 
         message.setIsDeleted(true);
+        messageRepository.save(message);
+    }
+
+    @Transactional
+    public void updateMessage(Long messageId, UUID memberId, String newContent) {
+        Message message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new RuntimeException("메시지를 찾을 수 없습니다."));
+
+        if (!message.getMemberId().equals(memberId)) {
+            throw new RuntimeException("메시지를 찾을 수 없습니다.");
+        }
+
+        message.updateContent(newContent);
         messageRepository.save(message);
     }
 }

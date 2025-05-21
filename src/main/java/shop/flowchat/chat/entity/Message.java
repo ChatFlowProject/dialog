@@ -74,4 +74,9 @@ public class Message {
     public void setIsDeleted(boolean deleted) {
         this.isDeleted = deleted;
     }
+
+    public void updateContent(String newContent) {
+        this.content = newContent;
+        this.isUpdated = true;
+    }
 }
