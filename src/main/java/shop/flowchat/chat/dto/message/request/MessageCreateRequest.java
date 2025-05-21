@@ -4,7 +4,7 @@ import java.util.List;
 import shop.flowchat.chat.dto.common.AttachmentDto;
 
 public record MessageCreateRequest(
-        String message,
+        String content,
         List<AttachmentDto> attachments
 ) {
 }
