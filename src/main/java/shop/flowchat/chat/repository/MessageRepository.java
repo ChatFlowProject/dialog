@@ -8,5 +8,6 @@ import shop.flowchat.chat.entity.Message;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    List<Message> findByChatIdAndIdLessThanOrderByIdDesc(UUID chatId, Long lastMessageId, PageRequest pageRequest);
+    List<Message> findByChatIdAndIdLessThanOrderByIdDesc(UUID chatId, Long messageId, PageRequest pageRequest);
+    List<Message> findByChatIdAndIdGreaterThanOrderByIdAsc(UUID chatId, Long messageId, PageRequest pageRequest);
 }
