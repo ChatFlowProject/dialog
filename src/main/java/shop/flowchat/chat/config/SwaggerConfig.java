@@ -45,8 +45,8 @@ public class SwaggerConfig {
 
     private Info apiInfo() {
         return new Info()
-                .title("Chat Flow Dialog Service REST API Specifications")
-                .description("Chat Flow Dialog Service Specification")
+                .title("Chatflow Dialog Service REST API Specifications")
+                .description("Chatflow Dialog Service Specification")
                 .version(version);
     }
 }
