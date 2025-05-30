@@ -1,15 +1,12 @@
 package shop.flowchat.chat.kafka.consumer;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import shop.flowchat.chat.dto.kafka.MessagePayload;
-import shop.flowchat.chat.dto.member.MemberSimpleResponse;
-import shop.flowchat.chat.dto.member.MemberState;
+import shop.flowchat.chat.dto.member.response.MemberSimpleResponse;
 import shop.flowchat.chat.dto.message.response.MessagePushResponse;
 import shop.flowchat.chat.client.MemberClient;
 import shop.flowchat.chat.entity.Attachment;

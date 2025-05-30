@@ -1,9 +1,10 @@
-package shop.flowchat.chat.dto.member;
+package shop.flowchat.chat.dto.member.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import shop.flowchat.chat.dto.member.MemberState;
 
 public record MemberSimpleResponse(
         @Schema(description = "회원 고유키", example = "98bd5bf6-848a-43d4-8683-205523c9e359")

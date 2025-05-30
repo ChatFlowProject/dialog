@@ -6,12 +6,12 @@ import java.util.UUID;
 import shop.flowchat.chat.dto.common.Sender;
 import shop.flowchat.chat.dto.common.AttachmentDto;
 import shop.flowchat.chat.dto.kafka.MessagePayload;
-import shop.flowchat.chat.dto.member.MemberSimpleResponse;
+import shop.flowchat.chat.dto.member.response.MemberSimpleResponse;
 
 public record MessagePushResponse(
         UUID chatId,
         Sender sender,
-        String message,
+        String content,
         List<AttachmentDto> attachments,
         LocalDateTime createdAt
 ) {
