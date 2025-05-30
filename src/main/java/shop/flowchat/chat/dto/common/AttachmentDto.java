@@ -15,6 +15,9 @@ public record AttachmentDto(
         );
     }
     public static List<AttachmentDto> from(List<Attachment> attachments) {
+        if (attachments == null) {
+            return null;
+        }
         return attachments.stream()
                 .map(AttachmentDto::from)
                 .toList();

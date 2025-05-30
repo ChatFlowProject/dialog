@@ -32,7 +32,6 @@ spring:
       security.protocol: PLAINTEXT # 프로토콜 명시
       bootstrap.servers.protocol.map: CLIENT:PLAINTEXT
       client.id: "chat-kafka-client" # 클라이언트 ID 지정
-      spring.json.trusted.packages: shop.flowchat.chat.dto.kafka
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -52,6 +51,25 @@ spring:
 #      processing.guarantee: exactly_once_v2
 #      properties:
 #        commit.interval.ms: 100
+  redis:
+    redisson:
+      config: |
+        clusterServersConfig:
+          idleConnectionTimeout: 10000
+          connectTimeout: 10000
+          timeout: 3000
+          retryAttempts: 3
+          retryInterval: 1500
+          failedSlaveReconnectionInterval: 3000
+          failedSlaveCheckInterval: 60000
+          password: chatflow
+          nodeAddresses:
+            - "redis://redis-cluster-0.redis-cluster-headless.redis.svc.cluster.local:6379"
+            - "redis://redis-cluster-1.redis-cluster-headless.redis.svc.cluster.local:6379"
+            - "redis://redis-cluster-2.redis-cluster-headless.redis.svc.cluster.local:6379"
+            - "redis://redis-cluster-3.redis-cluster-headless.redis.svc.cluster.local:6379"
+            - "redis://redis-cluster-4.redis-cluster-headless.redis.svc.cluster.local:6379"
+            - "redis://redis-cluster-5.redis-cluster-headless.redis.svc.cluster.local:6379"
 
 
 springdoc:
