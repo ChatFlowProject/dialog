@@ -64,7 +64,7 @@ public class Message {
 
     public static Message create(MessagePayload payload, Chat chat) {
         return Message.builder()
-                .memberId(payload.memberId())
+                .memberId(payload.sender().memberId())
                 .chat(chat)
                 .content(payload.content())
                 .createdAt(payload.createdAt())
