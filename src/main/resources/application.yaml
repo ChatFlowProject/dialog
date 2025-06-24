@@ -54,6 +54,7 @@ spring:
   redis:
     redisson:
       config: |
+        codec: !<org.redisson.codec.JsonJacksonCodec> {}
         clusterServersConfig:
           idleConnectionTimeout: 10000
           connectTimeout: 10000
@@ -70,6 +71,8 @@ spring:
             - "redis://redis-cluster-3.redis-cluster-headless.redis.svc.cluster.local:6379"
             - "redis://redis-cluster-4.redis-cluster-headless.redis.svc.cluster.local:6379"
             - "redis://redis-cluster-5.redis-cluster-headless.redis.svc.cluster.local:6379"
+        
+        
 
 
 springdoc:
