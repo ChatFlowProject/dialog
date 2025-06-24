@@ -6,7 +6,8 @@ import java.util.Arrays;
 
 public enum Direction {
     UP("up"),
-    DOWN("down");
+    DOWN("down"),
+    INCLUSIVE_UP("inclusive_up");
 
     private final String direction;
 

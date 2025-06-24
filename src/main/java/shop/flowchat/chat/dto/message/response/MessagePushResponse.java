@@ -6,19 +6,20 @@ import java.util.UUID;
 import shop.flowchat.chat.dto.common.Sender;
 import shop.flowchat.chat.dto.common.AttachmentDto;
 import shop.flowchat.chat.dto.kafka.MessagePayload;
-import shop.flowchat.chat.dto.member.response.MemberSimpleResponse;
 
 public record MessagePushResponse(
+        Long messageId,
         UUID chatId,
         Sender sender,
         String content,
         List<AttachmentDto> attachments,
         LocalDateTime createdAt
 ) {
-    public static MessagePushResponse from(MessagePayload payload, MemberSimpleResponse response) {
+    public static MessagePushResponse from(MessagePayload payload, Long messageId) {
         return new MessagePushResponse(
+            messageId,
             payload.chatId(),
-            new Sender(response.id(), response.name(), response.avatarUrl()),
+            payload.sender(),
             payload.content(),
             payload.attachments(),
             payload.createdAt()

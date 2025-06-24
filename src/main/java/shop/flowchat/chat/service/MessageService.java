@@ -28,9 +28,7 @@ import shop.flowchat.chat.repository.MessageRepository;
 public class MessageService {
     private final MessageRepository messageRepository;
     private final MemberClient memberClient;
-
     private final RedisTemplate<String, Object> redisTemplate;
-    private static final String MESSAGE_CACHE_KEY_PREFIX = "chat:";
 
     @Transactional
     public void deleteMessage(Long messageId, UUID memberId) {
@@ -65,6 +63,8 @@ public class MessageService {
 
         if (direction == Direction.UP) {
             messages = messageRepository.findByChatIdAndIdLessThanOrderByIdDesc(chatId, messageId, pageRequest);
+        } else if (direction == Direction.INCLUSIVE_UP) {
+            messages = messageRepository.findByChatIdAndIdLessThanEqualOrderByIdDesc(chatId, messageId, pageRequest);
         } else {
             messages = messageRepository.findByChatIdAndIdGreaterThanOrderByIdAsc(chatId, messageId, pageRequest);
         }
@@ -95,8 +95,19 @@ public class MessageService {
                 .collect(Collectors.toMap(MemberSimpleResponse::id, m -> m));
     }
 
-    private String buildKey(UUID memberId, Long channelId) {
-        return MESSAGE_CACHE_KEY_PREFIX + memberId + ":" + channelId;
+    @Transactional(readOnly = true)
+    public List<MessageResponse> getLatestMessages(String token, UUID chatId, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+        List<Message> messages = messageRepository.findByChatIdOrderByIdDesc(chatId, pageRequest);
+        Collections.reverse(messages);
+
+        Map<UUID, MemberSimpleResponse> memberMap = getMemberMap(token, messages);
+
+        return messages.stream()
+                .map(message -> {
+                    MemberSimpleResponse member = memberMap.get(message.getMemberId());
+                    return MessageResponse.from(message, member);
+                }).toList();
     }
 
     public void cacheMessagesByUser(MessageCacheRequest request) {
@@ -117,7 +128,7 @@ public class MessageService {
                     .map(m -> MessageResponse.from(m, memberMap.get(m.getMemberId())))
                     .toList();
 
-            String key = buildKey(memberId, channelId);
+            String key = memberId + ":" + channelId;
             redisTemplate.opsForList().rightPushAll(key, messageResponses);
             redisTemplate.opsForList().trim(key, -30, -1);
         }

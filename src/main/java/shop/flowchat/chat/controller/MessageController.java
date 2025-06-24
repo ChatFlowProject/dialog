@@ -28,7 +28,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @Operation(summary = "방향에 따라 기준 메시지 ID로 메시지 페이지 조회")
-    @GetMapping("/list")
+    @GetMapping
     public ApiResponse<List<MessageResponse>> getMessages(
             @Parameter(hidden = true) @RequestHeader("Authorization") String token,
             @RequestParam UUID chatId,
@@ -38,6 +38,27 @@ public class MessageController {
     ) {
         Direction dir = Direction.from(direction);
         return ApiResponse.success(messageService.getMessagesByDirection(token, chatId, messageId, dir, pageSize));
+    }
+
+    @Operation(summary = "메시지 id(멘션 메시지) 기준 조회")
+    @GetMapping("/id")
+    public ApiResponse<List<MessageResponse>> getMessagesById(
+            @Parameter(hidden = true) @RequestHeader("Authorization") String token,
+            @RequestParam UUID chatId,
+            @RequestParam(required = false) Long messageId,
+            @RequestParam(defaultValue = "30") int pageSize
+    ) {
+        return ApiResponse.success(messageService.getMessagesByDirection(token, chatId, messageId, Direction.INCLUSIVE_UP, pageSize));
+    }
+
+    @Operation(summary = "최신 메시지 조회(임시)")
+    @GetMapping("/latest")
+    public ApiResponse<List<MessageResponse>> getLatestMessages(
+            @Parameter(hidden = true) @RequestHeader("Authorization") String token,
+            @RequestParam UUID chatId,
+            @RequestParam(defaultValue = "30") int pageSize
+    ) {
+        return ApiResponse.success(messageService.getLatestMessages(token, chatId, pageSize));
     }
 
     @Operation(summary = "메시지 캐싱")
