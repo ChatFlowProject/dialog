@@ -1,6 +1,5 @@
 package shop.flowchat.chat.controller;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -8,7 +7,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 import shop.flowchat.chat.dto.kafka.MessagePayload;
-import shop.flowchat.chat.dto.common.Sender;
 import shop.flowchat.chat.dto.message.request.MessageCreateRequest;
 import shop.flowchat.chat.dto.message.request.MessageDeleteRequest;
 import shop.flowchat.chat.dto.message.request.MessageUpdateRequest;
@@ -34,13 +32,8 @@ public class MessageSocketController {
             return;
         }
 
-        MessagePayload payload = new MessagePayload(
-                chatId,
-                new Sender(principal.getId(), principal.getName(), principal.getAvatarUrl()),
-                request.content(),
-                request.attachments(),
-                LocalDateTime.now()
-        );
+        MessagePayload payload = MessagePayload.from(chatId, request, principal);
+
         chatMessageProducer.sendMessage(payload);
     }
 
