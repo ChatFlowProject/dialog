@@ -23,14 +23,14 @@ public class JwtTokenProvider {
 
     public UUID getMemberIdFromToken(String token) {
         Claims claims = getClaims(token);
-        String subject = claims.getSubject(); // ex: "UUID:MEMBER"
-        String uuidString = subject.split(":")[0]; // Extract only the UUID
-        return UUID.fromString(uuidString);
+        String subject = claims.getSubject();
+        return UUID.fromString(subject);
     }
 
     private Claims getClaims(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(secretKey.getBytes())
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
