@@ -42,8 +42,8 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: shop.flowchat.chat.dto.kafka
-        spring.json.value.default.type: shop.flowchat.chat.dto.kafka.MessagePayload
+        spring.json.trusted.packages: shop.flowchat.chat.infrastructure.kafka.dto
+        spring.json.value.default.type: shop.flowchat.chat.infrastructure.kafka.dto.MessagePayload
 #      isolation-level: read_committed
     #      enable-auto-commit: true
 #    streams:
