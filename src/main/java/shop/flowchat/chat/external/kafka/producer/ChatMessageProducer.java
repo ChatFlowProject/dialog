@@ -1,10 +1,10 @@
-package shop.flowchat.chat.infrastructure.kafka.producer;
+package shop.flowchat.chat.external.kafka.producer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import shop.flowchat.chat.infrastructure.kafka.dto.MessagePayload;
-import shop.flowchat.chat.infrastructure.kafka.dto.MentionCreateEvent;
+import shop.flowchat.chat.external.kafka.dto.MessagePayload;
+import shop.flowchat.chat.external.kafka.dto.MentionCreateEvent;
 
 @Service
 @RequiredArgsConstructor

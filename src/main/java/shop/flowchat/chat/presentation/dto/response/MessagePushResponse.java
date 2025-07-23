@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import shop.flowchat.chat.common.dto.value.Sender;
 import shop.flowchat.chat.common.dto.value.AttachmentDto;
-import shop.flowchat.chat.infrastructure.kafka.dto.MessagePayload;
+import shop.flowchat.chat.external.kafka.dto.MessagePayload;
 
 public record MessagePushResponse(
         Long messageId,

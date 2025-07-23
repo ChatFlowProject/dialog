@@ -1,4 +1,4 @@
-package shop.flowchat.chat.infrastructure.kafka.dto;
+package shop.flowchat.chat.external.kafka.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -19,7 +19,7 @@ import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.flowchat.chat.infrastructure.kafka.dto.MessagePayload;
+import shop.flowchat.chat.external.kafka.dto.MessagePayload;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity

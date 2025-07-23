@@ -1,4 +1,4 @@
-package shop.flowchat.chat.infrastructure.kafka.dto;
+package shop.flowchat.chat.external.kafka.dto;
 
 public enum MentionType {
     EVERYONE,

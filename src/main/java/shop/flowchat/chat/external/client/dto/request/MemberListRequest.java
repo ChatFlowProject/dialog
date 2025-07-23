@@ -1,4 +1,4 @@
-package shop.flowchat.chat.infrastructure.client.dto.request;
+package shop.flowchat.chat.external.client.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

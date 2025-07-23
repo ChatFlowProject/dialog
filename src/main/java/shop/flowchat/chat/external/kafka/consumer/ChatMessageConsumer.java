@@ -1,11 +1,11 @@
-package shop.flowchat.chat.infrastructure.kafka.consumer;
+package shop.flowchat.chat.external.kafka.consumer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import shop.flowchat.chat.infrastructure.kafka.dto.MessagePayload;
+import shop.flowchat.chat.external.kafka.dto.MessagePayload;
 import shop.flowchat.chat.presentation.dto.response.MessagePushResponse;
 import shop.flowchat.chat.domain.Attachment;
 import shop.flowchat.chat.domain.Message;

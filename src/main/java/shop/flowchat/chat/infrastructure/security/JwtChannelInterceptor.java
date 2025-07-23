@@ -11,8 +11,8 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
-import shop.flowchat.chat.infrastructure.client.MemberClient;
-import shop.flowchat.chat.infrastructure.client.dto.response.MemberSimpleResponse;
+import shop.flowchat.chat.external.client.MemberClient;
+import shop.flowchat.chat.external.client.dto.response.MemberSimpleResponse;
 
 @Component
 @RequiredArgsConstructor

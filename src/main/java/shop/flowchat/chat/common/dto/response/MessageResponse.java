@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import shop.flowchat.chat.common.dto.value.AttachmentDto;
 import shop.flowchat.chat.common.dto.value.Sender;
-import shop.flowchat.chat.infrastructure.client.dto.response.MemberSimpleResponse;
+import shop.flowchat.chat.external.client.dto.response.MemberSimpleResponse;
 import shop.flowchat.chat.domain.Message;
 
 public record MessageResponse(

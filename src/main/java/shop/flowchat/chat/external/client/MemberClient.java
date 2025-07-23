@@ -1,4 +1,4 @@
-package shop.flowchat.chat.infrastructure.client;
+package shop.flowchat.chat.external.client;
 
 import jakarta.validation.Valid;
 import java.util.UUID;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import shop.flowchat.chat.common.dto.response.ApiResponse;
-import shop.flowchat.chat.infrastructure.client.dto.request.MemberListRequest;
-import shop.flowchat.chat.infrastructure.client.dto.response.MemberResponse;
-import shop.flowchat.chat.infrastructure.client.dto.response.MemberSimpleResponse;
+import shop.flowchat.chat.external.client.dto.request.MemberListRequest;
+import shop.flowchat.chat.external.client.dto.response.MemberResponse;
+import shop.flowchat.chat.external.client.dto.response.MemberSimpleResponse;
 
 @FeignClient(name = "member-service", url = "${chatflow.http-url}")
 public interface MemberClient {

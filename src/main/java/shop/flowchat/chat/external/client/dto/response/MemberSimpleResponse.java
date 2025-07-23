@@ -1,4 +1,4 @@
-package shop.flowchat.chat.infrastructure.client.dto.response;
+package shop.flowchat.chat.external.client.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

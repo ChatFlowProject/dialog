@@ -8,11 +8,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import shop.flowchat.chat.infrastructure.client.MemberClient;
+import shop.flowchat.chat.external.client.MemberClient;
 import shop.flowchat.chat.common.dto.value.Direction;
-import shop.flowchat.chat.infrastructure.client.dto.request.MemberListRequest;
-import shop.flowchat.chat.infrastructure.client.dto.response.MemberResponse;
-import shop.flowchat.chat.infrastructure.client.dto.response.MemberSimpleResponse;
+import shop.flowchat.chat.external.client.dto.request.MemberListRequest;
+import shop.flowchat.chat.external.client.dto.response.MemberResponse;
+import shop.flowchat.chat.external.client.dto.response.MemberSimpleResponse;
 import shop.flowchat.chat.common.dto.response.MessageResponse;
 import shop.flowchat.chat.domain.Message;
 import shop.flowchat.chat.infrastructure.repository.MessageRepository;
