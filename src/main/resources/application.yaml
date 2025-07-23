@@ -29,25 +29,22 @@ spring:
   kafka:
     bootstrap-servers: "kafka-controller-headless.kafka.svc.cluster.local:9092"
     properties:
-      security.protocol: PLAINTEXT # 프로토콜 명시
+      security.protocol: PLAINTEXT
       bootstrap.servers.protocol.map: CLIENT:PLAINTEXT
-      client.id: "chat-kafka-client" # 클라이언트 ID 지정
+      client.id: "dialog-kafka-client"
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 #      transactional.id: "dialog-transaction"
     consumer:
-      group-id: "chat-service-group"
+      group-id: "dialog-service-group"
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: shop.flowchat.chat.infrastructure.kafka.dto
-        spring.json.value.default.type: shop.flowchat.chat.infrastructure.kafka.dto.MessagePayload
-#      isolation-level: read_committed
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      isolation-level: read_committed
     #      enable-auto-commit: true
 #    streams:
-#      application-id: "team-streams-app"
+#      application-id: "dialog-streams-app"
 #      processing.guarantee: exactly_once_v2
 #      properties:
 #        commit.interval.ms: 100
