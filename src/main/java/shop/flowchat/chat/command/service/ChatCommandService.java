@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.flowchat.chat.presentation.dto.response.ChatCreateResponse;
-import shop.flowchat.chat.domain.Chat;
+import shop.flowchat.chat.domain.chat.Chat;
 import shop.flowchat.chat.infrastructure.repository.ChatRepository;
 
 @Service

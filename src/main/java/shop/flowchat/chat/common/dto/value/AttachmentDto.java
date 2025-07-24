@@ -1,8 +1,8 @@
 package shop.flowchat.chat.common.dto.value;
 
 import java.util.List;
-import shop.flowchat.chat.domain.Attachment;
-import shop.flowchat.chat.domain.AttachmentType;
+import shop.flowchat.chat.domain.message.Attachment;
+import shop.flowchat.chat.domain.message.AttachmentType;
 
 public record AttachmentDto(
         AttachmentType type,

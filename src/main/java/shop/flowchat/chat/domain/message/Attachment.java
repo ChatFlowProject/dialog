@@ -1,4 +1,4 @@
-package shop.flowchat.chat.domain;
+package shop.flowchat.chat.domain.message;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

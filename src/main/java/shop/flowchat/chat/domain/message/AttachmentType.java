@@ -1,4 +1,4 @@
-package shop.flowchat.chat.domain;
+package shop.flowchat.chat.domain.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

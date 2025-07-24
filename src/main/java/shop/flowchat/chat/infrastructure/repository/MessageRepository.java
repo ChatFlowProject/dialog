@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
-import shop.flowchat.chat.domain.Message;
+import shop.flowchat.chat.domain.message.Message;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 

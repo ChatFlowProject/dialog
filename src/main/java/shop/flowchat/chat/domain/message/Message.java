@@ -1,4 +1,4 @@
-package shop.flowchat.chat.domain;
+package shop.flowchat.chat.domain.message;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
@@ -19,6 +19,7 @@ import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.flowchat.chat.domain.chat.Chat;
 import shop.flowchat.chat.external.kafka.dto.MessagePayload;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -64,7 +65,7 @@ public class Message {
 
     public static Message create(MessagePayload payload, Chat chat) {
         return Message.builder()
-                .memberId(payload.sender().memberId())
+                .memberId(payload.senderId())
                 .chat(chat)
                 .content(payload.content())
                 .createdAt(payload.createdAt())
