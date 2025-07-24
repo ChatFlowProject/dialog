@@ -1,25 +1,26 @@
 package shop.flowchat.chat.presentation.controller;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 import shop.flowchat.chat.command.service.MessageCommandService;
-import shop.flowchat.chat.external.kafka.dto.MessagePayload;
+import shop.flowchat.chat.common.dto.response.ApiResponse;
+import shop.flowchat.chat.common.exception.custom.AuthorizationException;
 import shop.flowchat.chat.presentation.dto.request.MessageCreateRequest;
 import shop.flowchat.chat.presentation.dto.request.MessageDeleteRequest;
 import shop.flowchat.chat.presentation.dto.request.MessageUpdateRequest;
 import shop.flowchat.chat.presentation.dto.response.MessageDeleteResponse;
 import shop.flowchat.chat.presentation.dto.response.MessageUpdateResponse;
-import shop.flowchat.chat.external.kafka.producer.ChatMessageProducer;
 import shop.flowchat.chat.infrastructure.security.StompPrincipal;
 
 @RestController
 @RequiredArgsConstructor
 public class MessageSocketController {
-    private final ChatMessageProducer chatMessageProducer;
     private final MessageCommandService messageCommandService;
     private final SimpMessagingTemplate template;
 
@@ -28,13 +29,10 @@ public class MessageSocketController {
                             MessageCreateRequest request,
                             StompPrincipal principal) {
         if (principal == null || principal.getName() == null) {
-            System.out.println("인증되지 않은 사용자입니다.");
-            return;
+            throw new AuthorizationException("인증되지 않은 사용자입니다.");
         }
 
-        MessagePayload payload = MessagePayload.from(chatId, request, principal);
-
-        chatMessageProducer.sendMessage(payload);
+        messageCommandService.sendMessage(chatId, request, principal);
     }
 
     @MessageMapping("/message/delete/{chatId}")
