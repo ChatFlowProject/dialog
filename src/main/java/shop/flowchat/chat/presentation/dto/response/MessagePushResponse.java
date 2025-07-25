@@ -6,7 +6,7 @@ import java.util.UUID;
 import shop.flowchat.chat.common.dto.value.Sender;
 import shop.flowchat.chat.common.dto.value.AttachmentDto;
 import shop.flowchat.chat.domain.readmodel.MemberReadModel;
-import shop.flowchat.chat.external.kafka.dto.MessagePayload;
+import shop.flowchat.chat.infrastructure.outbox.payload.MessageEventPayload;
 
 public record MessagePushResponse(
         Long messageId,
@@ -16,7 +16,7 @@ public record MessagePushResponse(
         List<AttachmentDto> attachments,
         LocalDateTime createdAt
 ) {
-    public static MessagePushResponse from(MessagePayload payload, Long messageId, MemberReadModel sender) {
+    public static MessagePushResponse from(MessageEventPayload payload, Long messageId, MemberReadModel sender) {
         return new MessagePushResponse(
             messageId,
             payload.chatId(),

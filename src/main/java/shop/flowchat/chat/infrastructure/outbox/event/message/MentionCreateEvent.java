@@ -1,11 +1,11 @@
 package shop.flowchat.chat.infrastructure.outbox.event.message;
 
 import shop.flowchat.chat.infrastructure.outbox.event.OutboxEvent;
-import shop.flowchat.chat.infrastructure.outbox.payload.MentionCreatePayload;
+import shop.flowchat.chat.infrastructure.outbox.payload.MentionEventPayload;
 
 public class MentionCreateEvent extends OutboxEvent {
 
-    public MentionCreateEvent(String aggregateId, MentionCreatePayload payload) {
+    public MentionCreateEvent(String aggregateId, MentionEventPayload payload) {
         super("mention", aggregateId, "mentionCreate", payload, "");
     }
 

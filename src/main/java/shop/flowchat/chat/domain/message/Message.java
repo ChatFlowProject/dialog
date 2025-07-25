@@ -20,7 +20,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.flowchat.chat.domain.chat.Chat;
-import shop.flowchat.chat.external.kafka.dto.MessagePayload;
+import shop.flowchat.chat.infrastructure.outbox.payload.MessageEventPayload;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -63,7 +63,7 @@ public class Message {
         this.isDeleted = false;
     }
 
-    public static Message create(MessagePayload payload, Chat chat) {
+    public static Message create(MessageEventPayload payload, Chat chat) {
         return Message.builder()
                 .memberId(payload.senderId())
                 .chat(chat)
