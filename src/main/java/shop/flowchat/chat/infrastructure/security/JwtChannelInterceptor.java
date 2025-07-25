@@ -11,21 +11,20 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
-import shop.flowchat.chat.external.client.MemberClient;
-import shop.flowchat.chat.external.client.dto.response.MemberSimpleResponse;
+import shop.flowchat.chat.common.exception.custom.EntityNotFoundException;
+import shop.flowchat.chat.domain.readmodel.MemberReadModel;
+import shop.flowchat.chat.infrastructure.repository.MemberReadModelRepository;
 
 @Component
 @RequiredArgsConstructor
 public class JwtChannelInterceptor implements ChannelInterceptor {
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberClient memberClient;
+    private final MemberReadModelRepository memberRepository;
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
         if (accessor == null) return message;
-
-        System.out.println("STOMP native headers: " + accessor.toNativeHeaderMap());
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
             System.out.println("CONNECT 명령 감지됨");
@@ -43,21 +42,17 @@ public class JwtChannelInterceptor implements ChannelInterceptor {
             }
 
             String token = authorizationHeader.substring(7);
-            System.out.println("JWT 토큰 : " + token);
 
             try {
                 if (jwtTokenProvider.validateToken(token)) {
                     UUID memberId = jwtTokenProvider.getMemberIdFromToken(token);
-                    MemberSimpleResponse member = memberClient.getMemberInfo("Bearer " + token, memberId).data();
-
-                    System.out.println("memberId : " + member.id());
-                    System.out.println("name : " + member.nickname());
-                    System.out.println("avatarUrl : " + member.avatarUrl());
+                    MemberReadModel member = memberRepository.findById(memberId)
+                            .orElseThrow(() -> new EntityNotFoundException("보낸 사람 정보를 찾을 수 없습니다."));
 
                     accessor.setUser(new StompPrincipal(
                         memberId,
-                        member.nickname(),
-                        member.avatarUrl()
+                        member.getNickname(),
+                        member.getAvatarUrl()
                     ));
 
                     System.out.println("Principal 설정 완료");

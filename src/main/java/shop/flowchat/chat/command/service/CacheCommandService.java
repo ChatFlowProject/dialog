@@ -1,7 +1,5 @@
 package shop.flowchat.chat.command.service;
 
-import feign.FeignException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -14,19 +12,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import shop.flowchat.chat.command.dto.CacheRequest;
 import shop.flowchat.chat.common.dto.response.MessageResponse;
-import shop.flowchat.chat.domain.Message;
-import shop.flowchat.chat.external.client.MemberClient;
-import shop.flowchat.chat.external.client.dto.request.MemberListRequest;
-import shop.flowchat.chat.external.client.dto.response.MemberResponse;
-import shop.flowchat.chat.external.client.dto.response.MemberSimpleResponse;
+import shop.flowchat.chat.domain.message.Message;
+import shop.flowchat.chat.domain.readmodel.MemberReadModel;
+import shop.flowchat.chat.infrastructure.repository.MemberReadModelRepository;
 import shop.flowchat.chat.infrastructure.repository.MessageRepository;
 
 @Service
 @RequiredArgsConstructor
 public class CacheCommandService {
     private final MessageRepository messageRepository;
+    private final MemberReadModelRepository memberRepository;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final MemberClient memberClient;
 
     public void cacheMessagesByUser(CacheRequest request) {
         UUID memberId = request.memberId();
@@ -40,11 +36,7 @@ public class CacheCommandService {
             List<Message> messages = messageRepository.findByChatIdAndIdLessThanOrderByIdDesc(chatId, lastMessageId, pageRequest);
             Collections.reverse(messages);
 
-            Map<UUID, MemberSimpleResponse> memberMap = getMemberMap(null, messages);
-
-            List<MessageResponse> messageResponses = messages.stream()
-                    .map(m -> MessageResponse.from(m, memberMap.get(m.getMemberId())))
-                    .toList();
+            List<MessageResponse> messageResponses = getMessageResponses(messages);
 
             String key = memberId + ":" + channelId;
             redisTemplate.opsForList().rightPushAll(key, messageResponses);
@@ -52,20 +44,18 @@ public class CacheCommandService {
         }
     }
 
-    private Map<UUID, MemberSimpleResponse> getMemberMap(String token, List<Message> messages) {
+    private List<MessageResponse> getMessageResponses(List<Message> messages) {
         Set<UUID> memberIds = messages.stream()
                 .map(Message::getMemberId)
                 .collect(Collectors.toSet());
 
-        MemberListRequest request = new MemberListRequest(new ArrayList<>(memberIds));
-        MemberResponse memberResponses;
-        try {
-            memberResponses = memberClient.getMemberInfoList(token, request).data();
-        } catch (FeignException e) {
-            throw new RuntimeException("회원 정보 조회에 실패했습니다.", e);
-        }
+        List<MemberReadModel> members = memberRepository.findAllById(memberIds);
 
-        return memberResponses.memberList().stream()
-                .collect(Collectors.toMap(MemberSimpleResponse::id, m -> m));
+        Map<UUID, MemberReadModel> memberMap = members.stream()
+                .collect(Collectors.toMap(MemberReadModel::getId, member -> member));
+
+        return messages.stream()
+                .map(message -> MessageResponse.from(message, memberMap.get(message.getMemberId())))
+                .toList();
     }
 }
