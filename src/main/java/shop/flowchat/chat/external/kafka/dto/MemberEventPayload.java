@@ -2,7 +2,7 @@ package shop.flowchat.chat.external.kafka.dto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import shop.flowchat.chat.domain.readmodel.MemberReadModelState;
+import shop.flowchat.chat.domain.member.MemberReadModelState;
 
 public record MemberEventPayload(
         UUID id,

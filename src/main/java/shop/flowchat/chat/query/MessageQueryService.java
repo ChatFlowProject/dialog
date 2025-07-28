@@ -1,7 +1,6 @@
 package shop.flowchat.chat.query;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -9,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import shop.flowchat.chat.domain.readmodel.MemberReadModel;
+import shop.flowchat.chat.domain.member.MemberReadModel;
 import shop.flowchat.chat.common.dto.value.Direction;
 import shop.flowchat.chat.common.dto.response.MessageResponse;
 import shop.flowchat.chat.domain.message.Message;

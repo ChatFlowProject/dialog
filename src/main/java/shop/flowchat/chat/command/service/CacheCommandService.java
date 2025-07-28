@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import shop.flowchat.chat.command.dto.CacheRequest;
 import shop.flowchat.chat.common.dto.response.MessageResponse;
 import shop.flowchat.chat.domain.message.Message;
-import shop.flowchat.chat.domain.readmodel.MemberReadModel;
+import shop.flowchat.chat.domain.member.MemberReadModel;
 import shop.flowchat.chat.infrastructure.repository.MemberReadModelRepository;
 import shop.flowchat.chat.infrastructure.repository.MessageRepository;
 

@@ -1,4 +1,4 @@
-package shop.flowchat.chat.domain.readmodel;
+package shop.flowchat.chat.domain.member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

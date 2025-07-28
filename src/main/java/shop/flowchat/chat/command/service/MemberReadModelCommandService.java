@@ -3,7 +3,7 @@ package shop.flowchat.chat.command.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.flowchat.chat.domain.readmodel.MemberReadModel;
+import shop.flowchat.chat.domain.member.MemberReadModel;
 import shop.flowchat.chat.external.kafka.dto.MemberEventPayload;
 import shop.flowchat.chat.infrastructure.repository.MemberReadModelRepository;
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
 import shop.flowchat.chat.common.exception.custom.EntityNotFoundException;
-import shop.flowchat.chat.domain.readmodel.MemberReadModel;
+import shop.flowchat.chat.domain.member.MemberReadModel;
 import shop.flowchat.chat.infrastructure.repository.MemberReadModelRepository;
 
 @Component

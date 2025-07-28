@@ -13,7 +13,7 @@ import shop.flowchat.chat.common.exception.custom.EntityNotFoundException;
 import shop.flowchat.chat.domain.chat.Chat;
 import shop.flowchat.chat.domain.message.Attachment;
 import shop.flowchat.chat.domain.message.Message;
-import shop.flowchat.chat.domain.readmodel.MemberReadModel;
+import shop.flowchat.chat.domain.member.MemberReadModel;
 import shop.flowchat.chat.infrastructure.outbox.payload.MessageEventPayload;
 import shop.flowchat.chat.infrastructure.outbox.event.message.MentionCreateEvent;
 import shop.flowchat.chat.infrastructure.outbox.event.message.MessageCreateEvent;

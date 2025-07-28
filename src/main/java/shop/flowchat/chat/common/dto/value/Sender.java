@@ -1,7 +1,7 @@
 package shop.flowchat.chat.common.dto.value;
 
 import java.util.UUID;
-import shop.flowchat.chat.domain.readmodel.MemberReadModel;
+import shop.flowchat.chat.domain.member.MemberReadModel;
 
 public record Sender(
         UUID memberId,

@@ -1,4 +1,4 @@
-package shop.flowchat.chat.domain.readmodel;
+package shop.flowchat.chat.domain.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
