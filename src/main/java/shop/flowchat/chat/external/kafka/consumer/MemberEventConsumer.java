@@ -17,7 +17,7 @@ public class MemberEventConsumer {
     private final MemberReadModelCommandService commandService;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "member")
+    @KafkaListener(topics = "member", groupId = "dialog-service-group")
     public void consume(ConsumerRecord<String, String> record, @Header(name = "eventType", required = false) String eventType) {
         try {
             // Kafka 메시지 역직렬화
