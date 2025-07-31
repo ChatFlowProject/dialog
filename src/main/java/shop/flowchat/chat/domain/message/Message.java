@@ -19,8 +19,9 @@ import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.LastModifiedDate;
 import shop.flowchat.chat.domain.chat.Chat;
-import shop.flowchat.chat.infrastructure.outbox.payload.MessageEventPayload;
+import shop.flowchat.chat.presentation.dto.request.MessageCreateRequest;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -34,11 +35,15 @@ public class Message {
     @Column(nullable = false)
     private UUID memberId;
 
-    @Column(nullable = false)
     private String content;
+
+    private UUID invitedTeamId;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     @Column(nullable = false)
     private Boolean isUpdated;
@@ -54,21 +59,23 @@ public class Message {
     private Chat chat;
 
     @Builder
-    public Message(UUID memberId, Chat chat, String content, LocalDateTime createdAt) {
+    public Message(UUID memberId, Chat chat, String content, UUID invitedTeamId, LocalDateTime createdAt) {
         this.memberId = memberId;
         this.chat = chat;
         this.content = content;
+        this.invitedTeamId = invitedTeamId;
         this.createdAt = createdAt;
         this.isUpdated = false;
         this.isDeleted = false;
     }
 
-    public static Message create(MessageEventPayload payload, Chat chat) {
+    public static Message create(MessageCreateRequest request, Chat chat, UUID memberId) {
         return Message.builder()
-                .memberId(payload.senderId())
+                .memberId(memberId)
                 .chat(chat)
-                .content(payload.content())
-                .createdAt(payload.createdAt())
+                .content(request.content())
+                .invitedTeamId(request.invitedTeamId())
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 

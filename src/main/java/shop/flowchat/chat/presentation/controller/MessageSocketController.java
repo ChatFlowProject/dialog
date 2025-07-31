@@ -1,28 +1,22 @@
 package shop.flowchat.chat.presentation.controller;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 import shop.flowchat.chat.command.service.MessageCommandService;
-import shop.flowchat.chat.common.dto.response.ApiResponse;
 import shop.flowchat.chat.common.exception.custom.AuthorizationException;
 import shop.flowchat.chat.presentation.dto.request.MessageCreateRequest;
 import shop.flowchat.chat.presentation.dto.request.MessageDeleteRequest;
 import shop.flowchat.chat.presentation.dto.request.MessageUpdateRequest;
-import shop.flowchat.chat.presentation.dto.response.MessageDeleteResponse;
-import shop.flowchat.chat.presentation.dto.response.MessageUpdateResponse;
 import shop.flowchat.chat.infrastructure.security.StompPrincipal;
 
 @RestController
 @RequiredArgsConstructor
 public class MessageSocketController {
     private final MessageCommandService messageCommandService;
-    private final SimpMessagingTemplate template;
 
     @MessageMapping("/message/{chatId}")
     public void sendMessage(@DestinationVariable UUID chatId,
@@ -31,8 +25,7 @@ public class MessageSocketController {
         if (principal == null || principal.getName() == null) {
             throw new AuthorizationException("인증되지 않은 사용자입니다.");
         }
-
-        messageCommandService.sendMessage(chatId, request, principal);
+        messageCommandService.createMessage(request, chatId, principal.getId());
     }
 
     @MessageMapping("/message/delete/{chatId}")
@@ -43,11 +36,7 @@ public class MessageSocketController {
             System.out.println("인증되지 않은 사용자입니다.");
             return;
         }
-
-        messageCommandService.deleteMessage(request.messageId(), principal.getId());
-
-        MessageDeleteResponse response = MessageDeleteResponse.from(request.messageId());
-        template.convertAndSend("/sub/message/" + chatId, response);
+        messageCommandService.deleteMessage(request, chatId, principal.getId());
     }
 
     @MessageMapping("/message/update/{chatId}")
@@ -58,10 +47,6 @@ public class MessageSocketController {
             System.out.println("인증되지 않은 사용자입니다.");
             return;
         }
-
-        messageCommandService.updateMessage(request.messageId(), principal.getId(), request.newContent());
-
-        template.convertAndSend("/sub/message/" + chatId,
-                new MessageUpdateResponse(request.messageId(), request.newContent(), true));
+        messageCommandService.updateMessage(request, chatId, principal.getId());
     }
 }

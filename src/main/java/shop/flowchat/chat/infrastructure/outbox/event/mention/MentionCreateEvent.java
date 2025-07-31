@@ -1,4 +1,4 @@
-package shop.flowchat.chat.infrastructure.outbox.event.message;
+package shop.flowchat.chat.infrastructure.outbox.event.mention;
 
 import shop.flowchat.chat.infrastructure.outbox.event.OutboxEvent;
 import shop.flowchat.chat.infrastructure.outbox.payload.MentionEventPayload;
