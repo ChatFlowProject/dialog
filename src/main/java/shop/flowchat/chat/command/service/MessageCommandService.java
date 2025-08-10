@@ -66,7 +66,7 @@ public class MessageCommandService {
         MemberReadModel sender = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException("보낸 사람 정보를 찾을 수 없습니다."));
 
-        eventPublisher.publishEvent(new MessageCreateEvent(chatId.toString(), MessageCreatePayload.from(message, sender)));
+        eventPublisher.publishEvent(new MessageCreateEvent(chatId.toString(), MessageCreatePayload.from(message, sender, request.invitedTeamId())));
         if (request.memberIds() != null && !request.memberIds().isEmpty()) {
             eventPublisher.publishEvent(new MentionCreateEvent(chatId.toString(), MentionEventPayload.from(message, request.memberIds())));
         } else if (request.invitedTeamId() != null) {

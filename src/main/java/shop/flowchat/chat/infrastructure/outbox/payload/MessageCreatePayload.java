@@ -14,15 +14,17 @@ public record MessageCreatePayload(
         Sender sender,
         String content,
         List<AttachmentDto> attachments,
+        UUID invitedTeamId,
         LocalDateTime createdAt
 ) {
-    public static MessageCreatePayload from(Message message, MemberReadModel sender) {
+    public static MessageCreatePayload from(Message message, MemberReadModel sender, UUID invitedTeamId) {
         return new MessageCreatePayload(
                 message.getId(),
                 message.getChat().getId(),
                 Sender.from(sender),
                 message.getContent(),
                 AttachmentDto.from(message.getAttachments()),
+                invitedTeamId,
                 message.getCreatedAt()
         );
     }
